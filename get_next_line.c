@@ -44,8 +44,8 @@ char	*get_next_line(int fd)
 		else
 			break;
 	}
-	storage = NULL;
-	return (ft_aux());
+	//storage = NULL;
+	return (ft_aux(storage));
 }
 char	*ft_strjoin(char const *s1, char const *s2)
 {
@@ -76,6 +76,25 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	return (ptr);
 }
 
+char	*ft_aux(char *stg)
+{
+	static char	*sta;
+	char	*dp;
+
+	sta = NULL;
+	if (!strchr(stg,'\n')+1)
+	{
+		dp = ft_strdup(stg);
+		free(stg);
+		return (dp);
+	}
+	else{
+		sta = (char *)malloc(indexof(stg,'\n')+2);
+		stg = ft_substr(stg,0,indexof(stg,'\n')+1);
+	}
+	return (stg);
+}
+
 int	main(void)
 {
 	int	fd;
@@ -84,9 +103,4 @@ int	main(void)
 	printf("%s \n",get_next_line(fd));
 
 	return (0);
-}
-
-char	*ft_aux(char *stg)
-{
-	if ()
 }
