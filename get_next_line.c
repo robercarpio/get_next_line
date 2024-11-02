@@ -22,13 +22,15 @@ char	*get_next_line(int fd)
 	buffer = (char *)malloc(BUFFER_SIZE+1);
 	storage = NULL;
 	rd = read(fd,buffer,BUFFER_SIZE);
+	if (rd <=0)
+		return (NULL);
 	while (rd > 0)
 	{
 		if (!storage)
 		{
 			storage = buffer;
 			free (buffer);
-		}	
+		}
 		else {
 			if (!strchr(buffer,'\n'))
 			{
@@ -44,8 +46,7 @@ char	*get_next_line(int fd)
 		else
 			break;
 	}
-	//storage = NULL;
-	return (ft_aux(storage));
+	return (ft_aux(&storage));
 }
 char	*ft_strjoin(char const *s1, char const *s2)
 {
@@ -76,9 +77,10 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	return (ptr);
 }
 
-char	*ft_aux(char *stg)
+char	*ft_aux(char **stg)
 {
-	static char	*sta;
+	char	*sta;
+	char *q;
 	char	*dp;
 
 	sta = NULL;
@@ -90,7 +92,10 @@ char	*ft_aux(char *stg)
 	}
 	else{
 		sta = (char *)malloc(indexof(stg,'\n')+2);
-		stg = ft_substr(stg,0,indexof(stg,'\n')+1);
+		sta = ft_strchr(stg,'\n')+1;
+		q = ft_substr(stg,0,indexof(stg,'\n')+1);
+		free(*stg);
+		*stg = sta;
 	}
 	return (stg);
 }
