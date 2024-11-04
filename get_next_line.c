@@ -14,18 +14,17 @@
 
 char	*get_next_line(int fd)
 {
-	static char *storage;
+	static char *storage = NULL;
 	char	*buffer;
 	int	rd;
 
 	buffer = (char *)malloc(BUFFER_SIZE+1);
 	if (!buffer)
 		return (NULL);
-	storage = NULL;
-	printf("%s","prerd");
+	//printf("%s","prerd");
 	rd = read(fd, buffer, BUFFER_SIZE);
-	printf("%s","postrd");
-	if (rd == -1)
+	//printf("%s","postrd");
+	if (rd <= 0)
 		return (NULL);
 	while (rd > 0)
 	{
@@ -102,7 +101,7 @@ char	*ft_aux(char **stg)
 		free(*stg);
 		*stg = sta;
 	}
-	return (*stg);
+	return (sta);
 }
 
 size_t	ft_strlen(char *str)
