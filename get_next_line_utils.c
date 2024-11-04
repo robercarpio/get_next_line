@@ -12,7 +12,7 @@
 
 #include "get_next_line.h"
 
-char	*ft_strchr(const char *s, int c)
+char	*ft_strchr(char *s, int c)
 {
 	int				b;
 	unsigned char	ch;
@@ -32,7 +32,7 @@ char	*ft_strchr(const char *s, int c)
 		return (0);
 	return ((char *)s);
 }
-char	*ft_strdup(const char *s)
+char	*ft_strdup(char *s)
 {
 	char	*str;
 
@@ -45,19 +45,6 @@ char	*ft_strdup(const char *s)
 	return (str);
 }
 
-void	ft_strcpy(char *dst, const char *src)
-{
-	size_t	i;
-	size_t	r;
-
-	i = 0;
-		while (src[i] != '\0')
-		{
-			dst[i] = src[i];
-			i++;
-		}
-		dst[i] = '\0';
-}
 
 int	ft_indexof(char *str, char c)
 {
@@ -67,13 +54,15 @@ int	ft_indexof(char *str, char c)
 	while (*str)
 	{
 		if (*str == c)
+		{
 			return (i);
 			i++;
 			str++;
+		}
 	}
 	return (-1);
 }
-char	*ft_substr(char const *s, unsigned int start, size_t len)
+char	*ft_substr(char *s, unsigned int start, size_t len)
 {
 	char	*substr;
 	size_t	len_s;
@@ -90,6 +79,48 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 		return (0);
 	ft_strlcpy(substr, s + start, len + 1);
 	return (substr);
+}
+void	*ft_memcpy(void *dest, void *src, size_t n)
+{
+	unsigned char		*ptdest;
+	const unsigned char	*ptsrc;
+	size_t				i;
+
+	ptdest = dest;
+	ptsrc = src ;
+	i = 0;
+	if (!ptdest && !ptsrc)
+		return (NULL);
+	while (i < n)
+	{
+		ptdest[i] = ptsrc[i];
+		i++;
+	}
+	return (dest);
+}
+size_t	ft_strlcpy(char *dst, char *src, size_t size)
+{
+	size_t	i;
+	size_t	r;
+
+	i = 0;
+	r = 0;
+	while (src[r] != '\0')
+	{
+		r++;
+	}
+	if (size == 0)
+		return (r);
+	if (size > 0)
+	{
+		while (i < size - 1 && src[i] != '\0')
+		{
+			dst[i] = src[i];
+			i++;
+		}
+		dst[i] = '\0';
+	}
+	return (r);
 }
 
 

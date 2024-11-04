@@ -18,13 +18,19 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <stdlib.h>
+#ifndef BUFFER_SIZE
+# define BUFFER_SIZE 42
+# endif
 
-#define BUFFER_SIZE 42
-
-char	*ft_strchr(const char *s, int c);
-char	*ft_strdup(const char *s);
-void	ft_strcpy(char *dst, const char *src);
-char	*ft_substr(char const *s, unsigned int start, size_t len);
-char	*ft_strjoin(char const *s1, char const *s2);
+char	*get_next_line(int fd);
+char	*ft_strchr(char *s, int c);
+char	*ft_strdup(char *s);
+int	ft_indexof(char *str, char c);
+char	*ft_substr(char *s, unsigned int start, size_t len);
+void	*ft_memcpy(void *dest, void *src, size_t n);
+char	*ft_strjoin(char *s1, char *s2);
+size_t	ft_strlcpy(char *dst, char *src, size_t size);
+size_t	ft_strlen(char *str);
+char	*ft_aux(char **stg);
 
 #endif

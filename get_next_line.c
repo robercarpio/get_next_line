@@ -12,7 +12,6 @@
 
 #include "get_next_line.h"
 
-
 char	*get_next_line(int fd)
 {
 	static char *storage;
@@ -20,35 +19,40 @@ char	*get_next_line(int fd)
 	int	rd;
 
 	buffer = (char *)malloc(BUFFER_SIZE+1);
+	if (!buffer)
+		return (NULL);
 	storage = NULL;
-	rd = read(fd,buffer,BUFFER_SIZE);
-	if (rd <=0)
+	printf("%s","prerd");
+	rd = read(fd, buffer, BUFFER_SIZE);
+	printf("%s","postrd");
+	if (rd == -1)
 		return (NULL);
 	while (rd > 0)
 	{
 		if (!storage)
 		{
-			storage = buffer;
 			free (buffer);
 		}
 		else {
-			if (!strchr(buffer,'\n'))
+			if (!ft_strchr(buffer,'\n'))
 			{
 				storage = ft_strjoin(storage,buffer);
 				free(buffer);
 			}
 		}
 
-		if (!strchr(storage,'\n'))
+		if (!ft_strchr(storage,'\n'))
 		{
-			rd = read(fd,buffer,BUFFER_SIZE);
+			rd = read(fd, buffer, BUFFER_SIZE);
 		}
 		else
 			break;
 	}
 	return (ft_aux(&storage));
 }
-char	*ft_strjoin(char const *s1, char const *s2)
+
+
+char	*ft_strjoin(char *s1, char *s2)
 {
 	char	*ptr;
 	int		i;
@@ -80,32 +84,40 @@ char	*ft_strjoin(char const *s1, char const *s2)
 char	*ft_aux(char **stg)
 {
 	char	*sta;
-	char *q;
+//	char *q;
 	char	*dp;
 
 	sta = NULL;
-	if (!strchr(stg,'\n')+1)
+	if (!ft_strchr(*stg,'\n')+1)
 	{
-		dp = ft_strdup(stg);
+		dp = ft_strdup(*stg);
 		free(stg);
 		return (dp);
 	}
 	else{
-		sta = (char *)malloc(indexof(stg,'\n')+2);
-		sta = ft_strchr(stg,'\n')+1;
-		q = ft_substr(stg,0,indexof(stg,'\n')+1);
+		sta = (char *)malloc(ft_indexof(*stg,'\n')+2);
+		if (!sta)
+			return(NULL);
+		sta = ft_strchr(*stg,'\n')+1;
 		free(*stg);
 		*stg = sta;
 	}
-	return (stg);
+	return (*stg);
 }
 
-int	main(void)
+size_t	ft_strlen(char *str)
+{
+	size_t	i;
+
+	i = 0;
+	while (str[i] != '\0')
+		i++;
+	return (i);
+}
+int main(void)
 {
 	int	fd;
-
-	fd = open("test.txt", O_RDONLY);
-	printf("%s \n",get_next_line(fd));
-
+	fd = open("test.txt",O_RDONLY);
+	printf("%s",get_next_line(fd));
 	return (0);
 }
