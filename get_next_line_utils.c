@@ -42,6 +42,8 @@ char	*ft_strdup(char *s)
 		ft_memcpy(str, s, ft_strlen(s) + 1);
 		return (str);
 	}
+	else
+		return(NULL);
 	return (str);
 }
 
