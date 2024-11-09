@@ -34,6 +34,8 @@ char	*ft_strchr(char *s, int c)
 }
 char	*ft_strdup(char *s)
 {
+	if (!s)
+		return (NULL);
 	char	*str;
 
 	str = malloc((ft_strlen(s) + 1));
@@ -50,6 +52,8 @@ char	*ft_strdup(char *s)
 
 int	ft_indexof(char *str, char c)
 {
+	if (!str)
+		return (0);
 	int	i;
 
 	i = 0;
@@ -66,6 +70,8 @@ int	ft_indexof(char *str, char c)
 }
 char	*ft_substr(char *s, unsigned int start, size_t len)
 {
+	if (!s)
+		return (NULL);
 	char	*substr;
 	size_t	len_s;
 
@@ -84,6 +90,8 @@ char	*ft_substr(char *s, unsigned int start, size_t len)
 }
 void	*ft_memcpy(void *dest, void *src, size_t n)
 {
+	if (!dest || !src)
+		return (NULL);
 	unsigned char		*ptdest;
 	const unsigned char	*ptsrc;
 	size_t				i;
@@ -102,6 +110,8 @@ void	*ft_memcpy(void *dest, void *src, size_t n)
 }
 size_t	ft_strlcpy(char *dst, char *src, size_t size)
 {
+	if (!dst || !src)
+		return (0);
 	size_t	i;
 	size_t	r;
 

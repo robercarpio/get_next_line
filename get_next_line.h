@@ -25,7 +25,7 @@
 char	*get_next_line(int fd);
 char	*ft_strchr(char *s, int c);
 char	*ft_strdup(char *s);
-int	ft_indexof(char *str, char c);
+int	    ft_indexof(char *str, char c);
 char	*ft_substr(char *s, unsigned int start, size_t len);
 void	*ft_memcpy(void *dest, void *src, size_t n);
 char	*ft_strjoin(char *s1, char *s2);

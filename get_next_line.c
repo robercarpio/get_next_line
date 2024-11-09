@@ -29,14 +29,15 @@ char	*get_next_line(int fd)
 		return (NULL);
 	while (rd > 0)
 	{
+		buffer[rd] = '\0';
 		if (!storage)
 		{
 			storage = ft_strdup(buffer);
 			//free (buffer);
 		}
 		else {
-			if (!ft_strchr(buffer,'\n'))
-			{
+//			if (!ft_strchr(buffer,'\n'))
+//			{
 				/*
 				storage = ft_strjoin(storage,buffer);
 				free(buffer);
@@ -45,7 +46,7 @@ char	*get_next_line(int fd)
 				free(storage);
 				storage = tmp;
 
-			}
+//			}
 		}
 
 		if (!ft_strchr(storage,'\n'))
@@ -63,6 +64,8 @@ char	*get_next_line(int fd)
 
 char	*ft_strjoin(char *s1, char *s2)
 {
+	if (!s1 || !s2)
+		return (NULL);
 	char	*ptr;
 	int		i;
 	size_t	r_len;
@@ -94,13 +97,15 @@ char	*ft_aux(char **stg)
 {
 	char	*sta;
 	char	*dp;
-
 	sta = NULL;
+	//printf("%s \n",(ft_strchr(*stg,'\n'))+1);
+	//printf("%s \n",*stg);
+	printf("%zu \n",ft_strlen(*stg));
 	if (!ft_strchr(*stg,'\n')+1)
 	{
 		dp = ft_strdup(*stg);
 		free(*stg);
-		return (dp);
+		return ("R1");
 	}
 	else{
 		sta = (char *)malloc(ft_indexof(*stg,'\n')+2);
