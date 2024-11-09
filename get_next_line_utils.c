@@ -52,19 +52,16 @@ char	*ft_strdup(char *s)
 
 int	ft_indexof(char *str, char c)
 {
-	if (!str)
-		return (0);
 	int	i;
 
+	if (!str)
+		return (-1);
 	i = 0;
-	while (*str)
+	while (str[i])
 	{
-		if (*str == c)
-		{
+		if (str[i] == c)
 			return (i);
-			i++;
-			str++;
-		}
+		i++;
 	}
 	return (-1);
 }

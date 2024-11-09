@@ -22,42 +22,49 @@ char	*get_next_line(int fd)
 	buffer = (char *)malloc(BUFFER_SIZE+1);
 	if (!buffer)
 		return (NULL);
-	//printf("%s","prerd");
+	//printf("%s \n","prerd");
 	rd = read(fd, buffer, BUFFER_SIZE);
-	//printf("%s","postrd");
+	//printf("%s \n","postrd");
 	if (rd <= 0)
 		return (NULL);
+	//printf("%s \n","prewhilerd");
 	while (rd > 0)
 	{
+	//	printf("%s \n","whilerd");
 		buffer[rd] = '\0';
 		if (!storage)
 		{
+	//		printf("%s \n","!storage");
 			storage = ft_strdup(buffer);
 			//free (buffer);
 		}
 		else {
-//			if (!ft_strchr(buffer,'\n'))
-//			{
-				/*
+	//		printf("%s \n","else !storage");
+			if (!ft_strchr(buffer,'\n'))
+			{
+				
 				storage = ft_strjoin(storage,buffer);
 				free(buffer);
-				*/
-				tmp = ft_strjoin(storage, buffer);
-				free(storage);
-				storage = tmp;
+				
+//				tmp = ft_strjoin(storage, buffer);
+//				free(storage);
+//				storage = tmp;
 
-//			}
+			}
 		}
-
-		if (!ft_strchr(storage,'\n'))
+	//	printf("%s \n",storage);
+		if (!(ft_strchr(storage,'\n')))
 		{
+	//		printf("%s \n","if !n storage");
 			rd = read(fd, buffer, BUFFER_SIZE);
 		}
 		else
+	//		printf("%s \n","break");
 			break;
 	}
 	//if(buffer)
 		//free(buffer);
+	//printf("%s \n","prereturn");
 	return (ft_aux(&storage));
 }
 
@@ -95,25 +102,28 @@ char	*ft_strjoin(char *s1, char *s2)
 
 char	*ft_aux(char **stg)
 {
+	//printf("%s \n","call aux");
 	char	*sta;
 	char	*dp;
 	sta = NULL;
-	//printf("%s \n",(ft_strchr(*stg,'\n'))+1);
-	//printf("%s \n",*stg);
-	printf("%zu \n",ft_strlen(*stg));
-	if (!ft_strchr(*stg,'\n')+1)
+	//printf("%s \n","preifaux");
+	if (!(ft_strchr(*stg,'\n')+1))
 	{
+	//	printf("%s \n","ifaux");
 		dp = ft_strdup(*stg);
 		free(*stg);
 		return ("R1");
 	}
 	else{
+	//	printf("%s \n","elseaux");
 		sta = (char *)malloc(ft_indexof(*stg,'\n')+2);
 		if (!sta)
 			return(NULL);
-		sta = ft_substr(*stg,0,ft_indexof(*stg,'\n')+1);
+		sta = ft_substr(*stg,0,((ft_indexof(*stg,'\n'))+1));
 		*stg = ft_strchr(*stg,'\n')+1;
+	//	printf("%s",*stg);
 	}
+	//printf("%s \n","prereturnaux");
 	return (sta);
 }
 
@@ -133,5 +143,7 @@ int main(void)
 	int	fd;
 	fd = open("test.txt",O_RDONLY);
 	printf("%s",get_next_line(fd));
-	return (0);
+	printf("%s",get_next_line(fd));
+	printf("%s",get_next_line(fd));
+	close(fd);
 }

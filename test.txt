@@ -1,10 +1,6 @@
 hola que tal
 texto
-
-
 if (!ft_strchr(*stg,'\n')+1)
-
 HAY QUE SEGUIR COMPROBANDO EL INDICE DESPUES DEL SALTO DE LINEA PERO NO BUSCANDO EL NULO EL STG SOLO TIENE UN NULO QUE ES
-
 hola que tal
 texto\0
