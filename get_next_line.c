@@ -76,7 +76,7 @@ char	*ft_aux(char **stg)
 	char	*tmp;
 	int		len;
 
-	if (!*stg || !(ft_strchr(*stg, '\n')))
+	if (!*stg || !(ft_strchr(*stg, '\n')) || (**stg == '\n' && !(**stg++)))
 	{
 		l = ft_strdup(*stg);
 		free(*stg);
@@ -101,4 +101,23 @@ size_t	ft_strlen(char *str)
 	while (str[i] != '\0')
 		i++;
 	return (i);
+}
+int main(void)
+{
+	int		fd;
+	char	*line;
+
+	fd = open("test.txt", O_RDONLY);
+	if (fd == -1)
+	{
+		perror("Error al abrir el archivo");
+		return (1);
+	}
+	while ((line = get_next_line(fd)) != NULL)
+	{
+		printf("%s", line);
+		free(line);  // Importante: liberar la memoria asignada por get_next_line
+	}
+	close(fd);
+	return (0);
 }
