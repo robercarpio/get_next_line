@@ -14,65 +14,35 @@
 
 char	*get_next_line(int fd)
 {
-	static char *storage = NULL;
+	static char *storage;
 	char	*buffer;
-	int	rd;
-	char *tmp;
+	int		rd;
 
-	buffer = (char *)malloc(BUFFER_SIZE+1);
+	buffer = (char *)malloc(BUFFER_SIZE + 1);
 	if (!buffer)
 		return (NULL);
-	//printf("%s \n","prerd");
-	rd = read(fd, buffer, BUFFER_SIZE);
-	//printf("%s \n","postrd");
-	if (rd <= 0)
-		return (NULL);
-	//printf("%s \n","prewhilerd");
-	while (rd > 0)
+	while ((rd = read(fd, buffer, BUFFER_SIZE)) > 0)
 	{
-	//	printf("%s \n","whilerd");
 		buffer[rd] = '\0';
 		if (!storage)
-		{
-	//		printf("%s \n","!storage");
 			storage = ft_strdup(buffer);
-			//free (buffer);
-		}
-		else {
-	//		printf("%s \n","else !storage");
-			if (!ft_strchr(buffer,'\n'))
-			{
-				
-				storage = ft_strjoin(storage,buffer);
-				free(buffer);
-				
-//				tmp = ft_strjoin(storage, buffer);
-//				free(storage);
-//				storage = tmp;
-
-			}
-		}
-	//	printf("%s \n",storage);
-		if (!(ft_strchr(storage,'\n')))
-		{
-	//		printf("%s \n","if !n storage");
-			rd = read(fd, buffer, BUFFER_SIZE);
-		}
 		else
-	//		printf("%s \n","break");
+		{
+			char *temp = ft_strjoin(storage, buffer);
+			free(storage);
+			storage = temp;
+		}
+		if (ft_strchr(storage, '\n'))
 			break;
 	}
-	//if(buffer)
-		//free(buffer);
-	//printf("%s \n","prereturn");
+	free(buffer);
+	if (rd < 0 || (!storage && rd == 0))
+		return (NULL);
 	return (ft_aux(&storage));
 }
-
-
+/*
 char	*ft_strjoin(char *s1, char *s2)
 {
-	if (!s1 || !s2)
-		return (NULL);
 	char	*ptr;
 	int		i;
 	size_t	r_len;
@@ -99,32 +69,48 @@ char	*ft_strjoin(char *s1, char *s2)
 	ptr[i] = '\0';
 	return (ptr);
 }
+ */
+char	*ft_strjoin(char *s1, char *s2)
+{
+	char	*ptr;
+	char	*p;
+	size_t	r_len;
+
+	if (!s1 || !s2)
+		return (NULL);
+	r_len = ft_strlen(s1) + ft_strlen(s2) + 1;
+	ptr = malloc(r_len);
+	if (!ptr)
+		return (NULL);
+	p = ptr;
+	while (*s1)
+		*p++ = *s1++;
+	while (*s2)
+		*p++ = *s2++;
+	*p = '\0';
+	return (ptr);
+}
+
 
 char	*ft_aux(char **stg)
 {
-	//printf("%s \n","call aux");
-	char	*sta;
-	char	*dp;
-	sta = NULL;
-	//printf("%s \n","preifaux");
-	if (!(ft_strchr(*stg,'\n')+1))
+	char	*l;
+	char	*tmp;
+	int		len;
+
+	if (!*stg || !(ft_strchr(*stg, '\n')))
 	{
-	//	printf("%s \n","ifaux");
-		dp = ft_strdup(*stg);
+		l = ft_strdup(*stg);
 		free(*stg);
-		return ("R1");
+		*stg = NULL;
+		return (l);
 	}
-	else{
-	//	printf("%s \n","elseaux");
-		sta = (char *)malloc(ft_indexof(*stg,'\n')+2);
-		if (!sta)
-			return(NULL);
-		sta = ft_substr(*stg,0,((ft_indexof(*stg,'\n'))+1));
-		*stg = ft_strchr(*stg,'\n')+1;
-	//	printf("%s",*stg);
-	}
-	//printf("%s \n","prereturnaux");
-	return (sta);
+	len = ft_indexof(*stg, '\n') + 1;
+	l = ft_substr(*stg, 0, len);
+	tmp = ft_strdup(*stg + len);
+	free(*stg);
+	*stg = tmp;
+	return (l);
 }
 
 size_t	ft_strlen(char *str)
@@ -137,13 +123,4 @@ size_t	ft_strlen(char *str)
 	while (str[i] != '\0')
 		i++;
 	return (i);
-}
-int main(void)
-{
-	int	fd;
-	fd = open("test.txt",O_RDONLY);
-	printf("%s",get_next_line(fd));
-	printf("%s",get_next_line(fd));
-	printf("%s",get_next_line(fd));
-	close(fd);
 }
