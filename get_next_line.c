@@ -14,62 +14,41 @@
 
 char	*get_next_line(int fd)
 {
-	static char *storage;
-	char	*buffer;
-	int		rd;
+	static char	*storage;
+	char		*buffer;
+	int			rd;
+	char		*temp ;
 
 	buffer = (char *)malloc(BUFFER_SIZE + 1);
 	if (!buffer)
 		return (NULL);
-	while ((rd = read(fd, buffer, BUFFER_SIZE)) > 0)
+	rd = read(fd, buffer, BUFFER_SIZE);
+	while (rd > 0)
 	{
 		buffer[rd] = '\0';
 		if (!storage)
 			storage = ft_strdup(buffer);
 		else
 		{
-			char *temp = ft_strjoin(storage, buffer);
+			temp = ft_strjoin(storage, buffer);
 			free(storage);
 			storage = temp;
 		}
 		if (ft_strchr(storage, '\n'))
-			break;
+			break ;
+		rd = read(fd, buffer, BUFFER_SIZE);
 	}
-	free(buffer);
-	if (rd < 0 || (!storage && rd == 0))
-		return (NULL);
-	return (ft_aux(&storage));
+	return (fbreturn(buffer, rd, &storage));
 }
-/*
-char	*ft_strjoin(char *s1, char *s2)
-{
-	char	*ptr;
-	int		i;
-	size_t	r_len;
 
-	if (!s1 || !s2)
+char	*fbreturn(char *buffer, int rd, char **stg)
+{
+	free(buffer);
+	if (rd < 0 || (!*stg && rd == 0))
 		return (NULL);
-	r_len = ((ft_strlen(s1) + ft_strlen(s2)) + 1);
-	ptr = malloc(r_len);
-	if (!ptr)
-		return (NULL);
-	i = 0;
-	while (*s1)
-	{
-		ptr[i] = *s1;
-		s1++;
-		i++;
-	}
-	while (*s2)
-	{
-		ptr[i] = *s2;
-		s2++;
-		i++;
-	}
-	ptr[i] = '\0';
-	return (ptr);
+	return (ft_aux(stg));
 }
- */
+
 char	*ft_strjoin(char *s1, char *s2)
 {
 	char	*ptr;
@@ -90,7 +69,6 @@ char	*ft_strjoin(char *s1, char *s2)
 	*p = '\0';
 	return (ptr);
 }
-
 
 char	*ft_aux(char **stg)
 {
@@ -115,10 +93,10 @@ char	*ft_aux(char **stg)
 
 size_t	ft_strlen(char *str)
 {
-	if (!str)
-		return (0);
 	size_t	i;
 
+	if (!str)
+		return (0);
 	i = 0;
 	while (str[i] != '\0')
 		i++;
