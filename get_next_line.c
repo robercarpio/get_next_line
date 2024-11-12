@@ -76,7 +76,8 @@ char	*ft_aux(char **stg)
 	char	*tmp;
 	int		len;
 
-	if (!*stg || !(ft_strchr(*stg, '\n')) || (**stg == '\n' && !(**stg++)))
+	//if (!*stg || !(ft_strchr(*stg, '\n')) || (**stg == '\n' && !(**stg++)))
+	if (!*stg || !(ft_strchr(*stg, '\n')))
 	{
 		l = ft_strdup(*stg);
 		free(*stg);

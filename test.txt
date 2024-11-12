@@ -1,2 +1,10 @@
+esto es un texto
+de prueba
+holaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholahola
+ 
+ 
+las dos lineas de arrbia tienen espacios vacios
+las dos siguientes solo salto de linea
 
 
+eof
